@@ -1,33 +1,54 @@
 def utopianTree(n):
-  new=[]
-  cont=0
-  for i in range(n+1):
-    if i%2!=0:
-      cont*=2
-      new.append(cont)
-    else:
-      cont+=1
-      new.append(cont)
-  return new[n]
+	res=0
+	for i in range(n+1):
+		res+=1 if i%2==0 else res
+	return res
 
+def utopianTree2(N):
+	return ((1 << ((N >> 1) +1)) - 1) << N%2
+	#~(~1<<(n>>1)) << n%2;
 
 t = int(input())
-for t_itr in range(t):
-  n = int(input())
-  print(utopianTree(n))
-
+for _ in range(t):
+    n = int(input())
+    result = utopianTree2(n)
+    print(result)
 
 """
-El arbol utopiano crece en primavera lo que media por 2 y en verano solo un metro
-el arbol inicia midiendo un metro pero eso se lo asigno con el primer cont+=1
-Sample Input
-3
-0
-1
-4
-Output
-1
-2
-7
+There is a pattern on the height every year.
 
+original height: 1
+
+year 1 (2 cycles) : 1*2+1 = 3 
+year 2 (4 cycles) : 3*2+1 = 7
+year 3 (6 cycles) : 7*2+1 = 15
+year 4 (8 cycles) : 15*2+1 = 31
+year 5 (10 cycles) : 31*2+1 = 63
+
+and you can notice the value in binary is like this
+
+year 1 (2 cycles) : 1*2+1 = 3     ->      11 
+year 2 (4 cycles) : 3*2+1 = 7     ->     111
+year 3 (6 cycles) : 7*2+1 = 15    ->    1111
+year 4 (8 cycles) : 15*2+1 = 31   ->   11111
+year 5 (10 cycles) : 31*2+1 = 63  ->  111111
+
+
+you can get the answer by putting 1 as much as (year + 1).
+how to make this? shift 1 by (year + 1) and subtract 1.
+
+straight forward bit calculation is this:
+
+(1<<((N>>1)+1))-1
+* N>>1 : devide N by 2 to get year
+1 << (year+1) : if year is 5, it will make 1000000
+-1 will make 1000000 to 111111.
+
+if cycle is odd, that means the tree will be doubled again.
+
+((1<<((N>>1)+1))-1) << n%2
+
+
+This is another fomulation using NOT instead
+~(~1<<(n>>1)) << n%2
 """

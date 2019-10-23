@@ -1,34 +1,30 @@
-_,sticks=input(),list(map(int,input().split()))
-new=[]
-cut=[len(sticks)]
-i=0
-while sticks:
-  if len(new)>0:
-    cut.append(len(new))
-  minimo=min(sticks)
-  if i>0:
-    sticks=new
-  for j in range(len(sticks)):
-    sticks[j]-=minimo
-  new=[x for x in sticks if x>0]
-  i+=1
-print(*sorted(set(cut),reverse=True),sep="\n")
+N=int(input())
+arr=list(map(int, input().split()))
+c=len(arr)
 
-n,arr=int(input()),[0 for x in range(0,1001)]
-ar=list(map(int,input().split()))
-for i in range(n):
-  x=ar[i]
-  arr[x]+=1
-print(n)
-for j in range(1,1001):
-  if arr[j]>0:
-    n-=arr[j]
-    if n>0:
-      print(n)
-    else:
-      break
+def lower(arr):
+	ma=1000000
+	for i in arr:
+		if i<ma and i!=0: ma=i
+	return ma
 
-_,arr=input(),list(map(int,input().split()))
-while len(arr):
-  print(len(arr))
-  arr = [x - min(arr) for x in arr if x - min(arr)>0]
+while c>0:
+	print(c)
+	c=0
+	m=lower(arr)
+	for i in range(len(arr)):
+		if arr[i]==0: continue
+		arr[i] -= m
+		c+=1 if arr[i]!=0 else 0
+
+#for j in arr:
+#	c+=1 if j!=0 else 0
+
+"""from collections import Counter
+l=len(arr)
+arr=sorted(Counter(arr).items())
+
+for i in arr:
+	print(l)
+	l-=i[1]
+"""
